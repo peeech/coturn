@@ -15,6 +15,8 @@ static int is_acme_req(char *req, size_t len) {
 	static const char *A = "                                             -  0123456789       ABCDEFGHIJKLMNOPQRSTUVWXYZ    _ abcdefghijklmnopqrstuvwxyz     ";
 	int c, i, k;
 
+    TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "##### Incoming request %s\n", req);
+
 	// Check first request line. Should be like: GET path HTTP/1.x
 	if (strncmp(req, GET_ACME_PREFIX, GET_ACME_PREFIX_LEN))
 		return -1;
