@@ -1037,7 +1037,7 @@ static int handle_turn_allocate(turn_turnserver *server,
 		band_limit_t bps = 0;
 		band_limit_t max_bps = 0;
 
-		stun_attr_ref sar = stun_attr_get_first_str(ioa_network_buffer_data(in_buffer->nbh), 
+		stun_attr_ref sar = stun_attr_get_first_str(ioa_network_buffer_data(in_buffer->nbh),
 							    ioa_network_buffer_get_size(in_buffer->nbh));
 		while (sar && (!(*err_code)) && (*ua_num < MAX_NUMBER_OF_UNKNOWN_ATTRS)) {
 
@@ -1212,8 +1212,8 @@ static int handle_turn_allocate(turn_turnserver *server,
 				if(attr_type>=0x0000 && attr_type<=0x7FFF)
 					unknown_attrs[(*ua_num)++] = nswap16(attr_type);
 			};
-			sar = stun_attr_get_next_str(ioa_network_buffer_data(in_buffer->nbh), 
-						     ioa_network_buffer_get_size(in_buffer->nbh), 
+			sar = stun_attr_get_next_str(ioa_network_buffer_data(in_buffer->nbh),
+						     ioa_network_buffer_get_size(in_buffer->nbh),
 						     sar);
 		}
 
@@ -1222,7 +1222,7 @@ static int handle_turn_allocate(turn_turnserver *server,
 		  *err_code = 400;
 		  if(!(*reason))
 		    *reason = (const uint8_t *)"Transport field missed or wrong";
-		  
+
 		} else if (*ua_num > 0) {
 
 		  *err_code = 420;
@@ -1526,7 +1526,7 @@ static int handle_turn_refresh(turn_turnserver *server,
 		mobile_id_t mid = 0;
 		char smid[sizeof(ss->s_mobile_id)] = "\0";
 
-		stun_attr_ref sar = stun_attr_get_first_str(ioa_network_buffer_data(in_buffer->nbh), 
+		stun_attr_ref sar = stun_attr_get_first_str(ioa_network_buffer_data(in_buffer->nbh),
 							    ioa_network_buffer_get_size(in_buffer->nbh));
 		while (sar && (!(*err_code)) && (*ua_num < MAX_NUMBER_OF_UNKNOWN_ATTRS)) {
 			int attr_type = stun_attr_get_type(sar);
@@ -1607,7 +1607,7 @@ static int handle_turn_refresh(turn_turnserver *server,
 				if(attr_type>=0x0000 && attr_type<=0x7FFF)
 					unknown_attrs[(*ua_num)++] = nswap16(attr_type);
 			};
-			sar = stun_attr_get_next_str(ioa_network_buffer_data(in_buffer->nbh), 
+			sar = stun_attr_get_next_str(ioa_network_buffer_data(in_buffer->nbh),
 						     ioa_network_buffer_get_size(in_buffer->nbh), sar);
 		}
 
@@ -1630,7 +1630,7 @@ static int handle_turn_refresh(turn_turnserver *server,
 					if(server->send_socket_to_relay) {
 						ioa_socket_handle new_s = detach_ioa_socket(ss->client_socket);
 						if(new_s) {
-						  if(server->send_socket_to_relay(tsid, mid, tid, new_s, message_integrity, 
+						  if(server->send_socket_to_relay(tsid, mid, tid, new_s, message_integrity,
 										  RMT_MOBILE_SOCKET, in_buffer, can_resume)<0) {
 						    *err_code = 400;
 						    *reason = (const uint8_t *)"Wrong mobile ticket";
@@ -2594,7 +2594,7 @@ static int handle_turn_channel_bind(turn_turnserver *server,
 		*reason = (const uint8_t *)"Channel bind cannot be used with TCP relay";
 	} else if (is_allocation_valid(a)) {
 
-		stun_attr_ref sar = stun_attr_get_first_str(ioa_network_buffer_data(in_buffer->nbh), 
+		stun_attr_ref sar = stun_attr_get_first_str(ioa_network_buffer_data(in_buffer->nbh),
 							    ioa_network_buffer_get_size(in_buffer->nbh));
 		while (sar && (!(*err_code)) && (*ua_num < MAX_NUMBER_OF_UNKNOWN_ATTRS)) {
 			int attr_type = stun_attr_get_type(sar);
@@ -2617,8 +2617,8 @@ static int handle_turn_channel_bind(turn_turnserver *server,
 				break;
 			case STUN_ATTRIBUTE_XOR_PEER_ADDRESS:
 			  {
-				stun_attr_get_addr_str(ioa_network_buffer_data(in_buffer->nbh), 
-						       ioa_network_buffer_get_size(in_buffer->nbh), 
+				stun_attr_get_addr_str(ioa_network_buffer_data(in_buffer->nbh),
+						       ioa_network_buffer_get_size(in_buffer->nbh),
 						       sar, &peer_addr,
 						       NULL);
 
@@ -2640,8 +2640,8 @@ static int handle_turn_channel_bind(turn_turnserver *server,
 				if(attr_type>=0x0000 && attr_type<=0x7FFF)
 					unknown_attrs[(*ua_num)++] = nswap16(attr_type);
 			};
-			sar = stun_attr_get_next_str(ioa_network_buffer_data(in_buffer->nbh), 
-						     ioa_network_buffer_get_size(in_buffer->nbh), 
+			sar = stun_attr_get_next_str(ioa_network_buffer_data(in_buffer->nbh),
+						     ioa_network_buffer_get_size(in_buffer->nbh),
 						     sar);
 		}
 
@@ -2973,7 +2973,7 @@ static int handle_turn_send(turn_turnserver *server, ts_ur_super_session *ss,
 		*reason = (const uint8_t *)"Send cannot be used with TCP relay";
 	} else if (is_allocation_valid(a) && (in_buffer->recv_ttl != 0)) {
 
-		stun_attr_ref sar = stun_attr_get_first_str(ioa_network_buffer_data(in_buffer->nbh), 
+		stun_attr_ref sar = stun_attr_get_first_str(ioa_network_buffer_data(in_buffer->nbh),
 							    ioa_network_buffer_get_size(in_buffer->nbh));
 		while (sar && (!(*err_code)) && (*ua_num < MAX_NUMBER_OF_UNKNOWN_ATTRS)) {
 			int attr_type = stun_attr_get_type(sar);
@@ -2990,7 +2990,7 @@ static int handle_turn_send(turn_turnserver *server, ts_ur_super_session *ss,
 					*err_code = 400;
 					*reason = (const uint8_t *)"Address duplication";
 				} else {
-					stun_attr_get_addr_str(ioa_network_buffer_data(in_buffer->nbh), 
+					stun_attr_get_addr_str(ioa_network_buffer_data(in_buffer->nbh),
 							       ioa_network_buffer_get_size(in_buffer->nbh),
 							       sar, &peer_addr,
 							       NULL);
@@ -3011,8 +3011,8 @@ static int handle_turn_send(turn_turnserver *server, ts_ur_super_session *ss,
 				if(attr_type>=0x0000 && attr_type<=0x7FFF)
 					unknown_attrs[(*ua_num)++] = nswap16(attr_type);
 			};
-			sar = stun_attr_get_next_str(ioa_network_buffer_data(in_buffer->nbh), 
-						     ioa_network_buffer_get_size(in_buffer->nbh), 
+			sar = stun_attr_get_next_str(ioa_network_buffer_data(in_buffer->nbh),
+						     ioa_network_buffer_get_size(in_buffer->nbh),
 						     sar);
 		}
 
@@ -3143,7 +3143,7 @@ static int handle_turn_create_permission(turn_turnserver *server,
 						unknown_attrs[(*ua_num)++] = nswap16(attr_type);
 				};
 				sar = stun_attr_get_next_str(ioa_network_buffer_data(in_buffer->nbh),
-						     ioa_network_buffer_get_size(in_buffer->nbh), 
+						     ioa_network_buffer_get_size(in_buffer->nbh),
 						     sar);
 			}
 		}
@@ -3402,7 +3402,7 @@ static int check_stun_auth(turn_turnserver *server,
 			*err_code = 400;
 			return -1;
 		}
-		
+
 		if(method == STUN_METHOD_CONNECTION_BIND) {
 
 			get_realm_options_by_name((char *)realm, &(ss->realm_options));
@@ -3586,16 +3586,16 @@ static int handle_turn_command(turn_turnserver *server, ts_ur_super_session *ss,
 
 	uint16_t unknown_attrs[MAX_NUMBER_OF_UNKNOWN_ATTRS];
 	uint16_t ua_num = 0;
-	uint16_t method = stun_get_method_str(ioa_network_buffer_data(in_buffer->nbh), 
+	uint16_t method = stun_get_method_str(ioa_network_buffer_data(in_buffer->nbh),
 					     ioa_network_buffer_get_size(in_buffer->nbh));
 
 	*resp_constructed = 0;
 
-	stun_tid_from_message_str(ioa_network_buffer_data(in_buffer->nbh), 
-				  ioa_network_buffer_get_size(in_buffer->nbh), 
+	stun_tid_from_message_str(ioa_network_buffer_data(in_buffer->nbh),
+				  ioa_network_buffer_get_size(in_buffer->nbh),
 				  &tid);
 
-	if (stun_is_request_str(ioa_network_buffer_data(in_buffer->nbh), 
+	if (stun_is_request_str(ioa_network_buffer_data(in_buffer->nbh),
 				ioa_network_buffer_get_size(in_buffer->nbh))) {
 
 		if((method == STUN_METHOD_BINDING) && (*(server->no_stun))) {
@@ -3870,7 +3870,7 @@ static int handle_turn_command(turn_turnserver *server, ts_ur_super_session *ss,
 			};
 		}
 
-	} else if (stun_is_indication_str(ioa_network_buffer_data(in_buffer->nbh), 
+	} else if (stun_is_indication_str(ioa_network_buffer_data(in_buffer->nbh),
 					  ioa_network_buffer_get_size(in_buffer->nbh))) {
 
 		no_response = 1;
@@ -4522,7 +4522,7 @@ static int read_client_connection(turn_turnserver *server,
 	if (eve(server->verbose)) {
 		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO,
 			      "%s: data.buffer=0x%lx, data.len=%ld\n", __FUNCTION__,
-			      (long)ioa_network_buffer_data(in_buffer->nbh), 
+			      (long)ioa_network_buffer_data(in_buffer->nbh),
 			      (long)ioa_network_buffer_get_size(in_buffer->nbh));
 	}
 
@@ -4536,7 +4536,7 @@ static int read_client_connection(turn_turnserver *server,
 	int is_padding_mandatory = is_stream_socket(st);
 
 	if(sat == HTTP_CLIENT_SOCKET) {
-
+		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 1\n");
 		if(server->verbose) {
 			TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "%s: HTTP connection input: %s\n", __FUNCTION__, (char*)ioa_network_buffer_data(in_buffer->nbh));
 		}
@@ -4544,14 +4544,14 @@ static int read_client_connection(turn_turnserver *server,
 		handle_http_echo(ss->client_socket);
 
 	} else if(sat == HTTPS_CLIENT_SOCKET) {
-
+		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 2\n");
 		//???
 
 	} else if (stun_is_channel_message_str(ioa_network_buffer_data(in_buffer->nbh),
 					&blen,
 					&chnum,
 					is_padding_mandatory)) {
-
+	    TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 3\n");
 		if(ss->is_tcp_relay) {
 			//Forbidden
 			FUNCEND;
@@ -4574,7 +4574,7 @@ static int read_client_connection(turn_turnserver *server,
 		return 0;
 
 	} else if (stun_is_command_message_full_check_str(ioa_network_buffer_data(in_buffer->nbh), ioa_network_buffer_get_size(in_buffer->nbh), 0, &(ss->enforce_fingerprints))) {
-
+		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 4\n");
 		ioa_network_buffer_handle nbh = ioa_network_buffer_allocate(server->e);
 		int resp_constructed = 0;
 
@@ -4618,7 +4618,7 @@ static int read_client_connection(turn_turnserver *server,
 		!(*(server->no_stun)) &&
 		!(*(server->no_stun_backward_compatibility))
 	) {
-
+		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 5\n");
 		ioa_network_buffer_handle nbh = ioa_network_buffer_allocate(server->e);
 		int resp_constructed = 0;
 
@@ -4635,14 +4635,17 @@ static int read_client_connection(turn_turnserver *server,
 			return 0;
 		}
 	} else {
+		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 6\n");
 		SOCKET_TYPE st = get_ioa_socket_type(ss->client_socket);
 		if(is_stream_socket(st)) {
+			TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 7\n");
 			if(is_http((char*)ioa_network_buffer_data(in_buffer->nbh),
 			ioa_network_buffer_get_size(in_buffer->nbh))) {
-
+				TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 8\n");
 				const char *proto = "HTTP";
 				if ((st == TCP_SOCKET) &&
 					(
+						TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 9\n");
 						try_acme_redirect(
 							(char*)ioa_network_buffer_data(in_buffer->nbh),
 							ioa_network_buffer_get_size(in_buffer->nbh),
@@ -4682,7 +4685,7 @@ static int read_client_connection(turn_turnserver *server,
 			}
 		}
 	}
-    
+
 	//Unrecognized message received, ignore it
 
 	FUNCEND;
