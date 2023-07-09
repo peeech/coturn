@@ -46,18 +46,23 @@ static int is_acme_req(char *req, size_t len) {
 int try_acme_redirect(char *req, size_t len, const char *url,
 	ioa_socket_handle s)
 {
-	static const char *HTML = 
+	TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 10\n");
+	static const char *HTML =
 		"<html><head><title>301 Moved Permanently</title></head>\
 		<body><h1>301 Moved Permanently</h1></body></html>";
 	char http_response[1024];
 	size_t plen, rlen;
 
-	if (url == NULL || url[0] == '\0' || req == NULL || s == 0 )
+	if (url == NULL || url[0] == '\0' || req == NULL || s == 0 ) {
+		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 11\n");
 		return 1;
+	}
 	if (len < (GET_ACME_PREFIX_LEN + 32) || len > (512 - GET_ACME_PREFIX_LEN)
-			|| (plen = is_acme_req(req, len)) < (GET_ACME_PREFIX_LEN + 1))
+			|| (plen = is_acme_req(req, len)) < (GET_ACME_PREFIX_LEN + 1)) {
+		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 12\n");
 		return 2;
-
+	}
+	TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 13\n");
 	req[plen] = '\0';
 
 	snprintf(http_response, sizeof(http_response) - 1,
@@ -71,12 +76,14 @@ int try_acme_redirect(char *req, size_t len, const char *url,
 	rlen = strlen(http_response);
 
 #ifdef LIBEV_OK
+	TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 14\n");
 	ioa_network_buffer_handle nbh_acme = ioa_network_buffer_allocate(s->e);
 	uint8_t *data = ioa_network_buffer_data(nbh_acme);
 	bcopy(http_response, data, rlen);
 	ioa_network_buffer_set_size(nbh_acme, rlen);
 	send_data_from_ioa_socket_nbh(s, NULL, nbh_acme, TTL_IGNORE, TOS_IGNORE, NULL);
 #else
+	TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 15\n");
 	if (write(s->fd, http_response, rlen) == -1) {
 		TURN_LOG_FUNC(TURN_LOG_LEVEL_WARNING,
 			"Sending redirect to '%s%s' failed",url, req + GET_ACME_PREFIX_LEN);
@@ -87,6 +94,6 @@ int try_acme_redirect(char *req, size_t len, const char *url,
 #endif
 
 	req[plen] = ' ';
-
+	TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 16\n");
 	return 0;
 }
