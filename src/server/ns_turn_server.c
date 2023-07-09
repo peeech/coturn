@@ -4645,7 +4645,6 @@ static int read_client_connection(turn_turnserver *server,
 				const char *proto = "HTTP";
 				if ((st == TCP_SOCKET) &&
 					(
-						TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 9\n");
 						try_acme_redirect(
 							(char*)ioa_network_buffer_data(in_buffer->nbh),
 							ioa_network_buffer_get_size(in_buffer->nbh),
@@ -4654,6 +4653,7 @@ static int read_client_connection(turn_turnserver *server,
 						) == 0
 					)
 				) {
+					TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 9\n");
 					ss->to_be_closed = 1;
 					return 0;
 				} else if (*server->web_admin_listen_on_workers) {
