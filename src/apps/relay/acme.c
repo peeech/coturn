@@ -59,6 +59,7 @@ int try_acme_redirect(char *req, size_t len, const char *url,
 		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 11\n");
 		return 1;
 	}
+	TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "##### Acme req position = %d\n", is_acme_req(req, len));
 	if (len < (GET_ACME_PREFIX_LEN + 32) || len > (512 - GET_ACME_PREFIX_LEN)
 			|| (plen = is_acme_req(req, len)) < (GET_ACME_PREFIX_LEN + 1)) {
 		TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "******* I am in branch 12\n");
@@ -74,6 +75,8 @@ int try_acme_redirect(char *req, size_t len, const char *url,
 		"Connection: close\r\n"
 		"Location: %s%s\r\n"
 		"\r\n%s", strlen(HTML), url, req + GET_ACME_PREFIX_LEN, HTML);
+
+    TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "##### Created response %s\n", http_response);
 
 	rlen = strlen(http_response);
 
